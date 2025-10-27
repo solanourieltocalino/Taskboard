@@ -50,6 +50,12 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+		<!-- Logging framework (Logback) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+
 		<!-- REST API support (Spring MVC + embedded Tomcat) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

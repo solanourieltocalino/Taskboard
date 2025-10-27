@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/api/users")
 public class AppUserController {
 
-    // Injected service that contains the business logic.
+    private static final Logger log = LoggerFactory.getLogger(AppUserController.class);
     private final AppUserService service;
 
     /**
@@ -48,8 +50,10 @@ public class AppUserController {
     @PostMapping
     public ResponseEntity<AppUserResponseDTO> create(@Valid @RequestBody AppUserCreateRequestDTO req,
             UriComponentsBuilder uriBuilder) {
+        log.info("[POST] /api/users - Creating user with email={}", req.email());
         AppUserResponseDTO res = service.create(req);
         var location = uriBuilder.path("/api/users/{id}").build(res.id());
+        log.info("User created successfully with id={}", res.id());
         return ResponseEntity.created(location).body(res);
     }
 
@@ -62,7 +66,10 @@ public class AppUserController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<AppUserResponseDTO> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+        log.info("[GET] /api/users/{} - Fetching user", id);
+        var res = service.getById(id);
+        log.debug("Fetched user: {}", res);
+        return ResponseEntity.ok(res);
     }
 
     /**
@@ -78,7 +85,10 @@ public class AppUserController {
     public ResponseEntity<?> list(
             @RequestParam(defaultValue = "0") @PositiveOrZero(message = "Page must be >= 0") int page,
             @RequestParam(defaultValue = "20") @Positive(message = "Size must be >= 1") int size) {
-        return ResponseEntity.ok(service.list(page, size));
+        log.info("[GET] /api/users - Listing users (page={}, size={})", page, size);
+        var res = service.list(page, size);
+        log.debug("User list fetched with {} elements", res.getContent().size());
+        return ResponseEntity.ok(res);
     }
 
     /**
@@ -92,7 +102,10 @@ public class AppUserController {
     @PutMapping("/{id}")
     public ResponseEntity<AppUserResponseDTO> update(@PathVariable Long id,
             @Valid @RequestBody AppUserUpdateRequestDTO req) {
-        return ResponseEntity.ok(service.update(id, req));
+        log.info("[PUT] /api/users/{} - Updating user", id);
+        var res = service.update(id, req);
+        log.info("User with id={} updated successfully", id);
+        return ResponseEntity.ok(res);
     }
 
     /**
@@ -104,7 +117,9 @@ public class AppUserController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("[DELETE] /api/users/{} - Deleting user", id);
         service.delete(id);
+        log.info("User with id={} deleted successfully", id);
         return ResponseEntity.noContent().build();
     }
 }
