@@ -10,5 +10,5 @@ public record AppUserResponseDTO(
         Long id,
         String name,
         String email,
-        Instant createdAt
-) {}
+        Instant createdAt) {
+}
