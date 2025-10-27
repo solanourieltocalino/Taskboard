@@ -18,6 +18,7 @@ public final class AppUserMapper {
 
     /**
      * Converts a create request DTO to an AppUser entity.
+     * 
      * @param req
      * @return
      */
@@ -30,6 +31,7 @@ public final class AppUserMapper {
 
     /**
      * Applies updates from an update request DTO to an existing AppUser entity.
+     * 
      * @param entity
      * @param req
      */
@@ -40,6 +42,7 @@ public final class AppUserMapper {
 
     /**
      * Converts an AppUser entity to a response DTO.
+     * 
      * @param e
      * @return
      */

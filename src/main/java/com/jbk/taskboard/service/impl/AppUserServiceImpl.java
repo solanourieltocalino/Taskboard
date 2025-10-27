@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Service implementation for managing AppUser entities.
  * Provides methods for creating, retrieving, updating, and deleting users.
- * Uses AppUserRepository for database interactions and AppUserMapper for DTO conversions.
+ * Uses AppUserRepository for database interactions and AppUserMapper for DTO
+ * conversions.
  * All methods are transactional to ensure data integrity.
  * Implements the AppUserService interface.
  */
@@ -34,8 +35,9 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Creates a new user after checking for email uniqueness.
-     * @param req   The user creation request DTO.
-     * @return      The created user as a response DTO.
+     * 
+     * @param req The user creation request DTO.
+     * @return The created user as a response DTO.
      * @throws DuplicateEmailException if the email is already in use.
      */
     @Override
@@ -49,8 +51,9 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Retrieves a user by ID.
-     * @param id    The ID of the user to retrieve.
-     * @return      The user as a response DTO.
+     * 
+     * @param id The ID of the user to retrieve.
+     * @return The user as a response DTO.
      * @throws NotFoundException if the user is not found.
      */
     @Override
@@ -63,9 +66,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Lists users with pagination.
-     * @param page  The page number to retrieve.
-     * @param size  The number of users per page.
-     * @return      A page of user response DTOs.
+     * 
+     * @param page The page number to retrieve.
+     * @param size The number of users per page.
+     * @return A page of user response DTOs.
      * @throws NotFoundException if no users are found.
      */
     @Override
@@ -77,11 +81,13 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Updates an existing user.
-     * @param id    The ID of the user to update.
-     * @param req   The user update request DTO.
-     * @return      The updated user as a response DTO.
-     * @throws NotFoundException if the user is not found.
-     * @throws DuplicateEmailException if the new email is already in use by another user.
+     * 
+     * @param id  The ID of the user to update.
+     * @param req The user update request DTO.
+     * @return The updated user as a response DTO.
+     * @throws NotFoundException       if the user is not found.
+     * @throws DuplicateEmailException if the new email is already in use by another
+     *                                 user.
      */
     @Override
     public AppUserResponseDTO update(Long id, AppUserUpdateRequestDTO req) {
@@ -99,7 +105,8 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Deletes a user by ID.
-     * @param id    The ID of the user to delete.
+     * 
+     * @param id The ID of the user to delete.
      * @throws NotFoundException if the user is not found.
      */
     @Override

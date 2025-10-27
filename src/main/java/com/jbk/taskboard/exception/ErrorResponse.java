@@ -5,12 +5,14 @@ import java.util.Map;
 
 /**
  * Structured error response for API exceptions.
- * Includes timestamp, status code, error description, message, and optional field validation errors.
+ * Includes timestamp, status code, error description, message, and optional
+ * field validation errors.
+ * 
  * @param timestamp The time the error occurred.
- * @param status The HTTP status code.
- * @param error The HTTP status description.
- * @param message A detailed error message.
- * @param messages A map of field validation errors, if applicable.
+ * @param status    The HTTP status code.
+ * @param error     The HTTP status description.
+ * @param message   A detailed error message.
+ * @param messages  A map of field validation errors, if applicable.
  */
 public record ErrorResponse(
         Instant timestamp,
