@@ -1,8 +1,7 @@
 package com.jbk.taskboard.service;
 
-import com.jbk.taskboard.dto.user.AppUserCreateRequestDTO;
+import com.jbk.taskboard.dto.user.AppUserRequestDTO;
 import com.jbk.taskboard.dto.user.AppUserResponseDTO;
-import com.jbk.taskboard.dto.user.AppUserUpdateRequestDTO;
 import org.springframework.data.domain.Page;
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.data.domain.Page;
 public interface AppUserService {
 
     // Creates a new user and returns the created user DTO.
-    AppUserResponseDTO create(AppUserCreateRequestDTO req);
+    AppUserResponseDTO create(AppUserRequestDTO req);
 
     // Retrieves a user by its ID.
     AppUserResponseDTO getById(Long id);
@@ -23,7 +22,7 @@ public interface AppUserService {
     Page<AppUserResponseDTO> list(int page, int size);
 
     // Updates an existing user by ID.
-    AppUserResponseDTO update(Long id, AppUserUpdateRequestDTO req);
+    AppUserResponseDTO update(Long id, AppUserRequestDTO req);
 
     // Deletes a user by ID.
     void delete(Long id);

@@ -3,9 +3,7 @@ package com.jbk.taskboard.mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jbk.taskboard.dto.user.AppUserCreateRequestDTO;
-import com.jbk.taskboard.dto.user.AppUserResponseDTO;
-import com.jbk.taskboard.dto.user.AppUserUpdateRequestDTO;
+import com.jbk.taskboard.dto.user.*;
 import com.jbk.taskboard.entity.AppUser;
 
 /**
@@ -27,7 +25,7 @@ public final class AppUserMapper {
      * @param req
      * @return
      */
-    public static AppUser toEntity(AppUserCreateRequestDTO req) {
+    public static AppUser toEntity(AppUserRequestDTO req) {
         log.debug("Mapping AppUserCreateRequestDTO to AppUser entity");
         AppUser u = new AppUser();
         u.setName(req.name());
@@ -41,7 +39,7 @@ public final class AppUserMapper {
      * @param entity
      * @param req
      */
-    public static void applyUpdate(AppUser entity, AppUserUpdateRequestDTO req) {
+    public static void applyUpdate(AppUser entity, AppUserRequestDTO req) {
         log.debug("Applying updates to AppUser entity with id={}", entity.getId());
         entity.setName(req.name());
         entity.setEmail(req.email());
@@ -55,7 +53,7 @@ public final class AppUserMapper {
      */
     public static AppUserResponseDTO toResponse(AppUser e) {
         log.debug("Mapping AppUser entity (id={}) to AppUserResponseDTO", e.getId());
-        return new AppUserResponseDTO(
+        return AppUserResponseDTO.of(
                 e.getId(),
                 e.getName(),
                 e.getEmail(),
