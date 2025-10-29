@@ -190,7 +190,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDuplicateEmail(DuplicateEmailException ex) {
         log.warn("Duplicate email conflict: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
-                ErrorResponse.of(409, "Conflict", ex.getMessage(), Map.of("email", ex.getMessage())));
+                ErrorResponse.of(409, "Conflict", ex.getMessage(), null));
     }
 
     /**
@@ -205,6 +205,19 @@ public class ApiExceptionHandler {
         log.error("Data integrity violation: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 ErrorResponse.of(409, "Conflict", msg, null));
+    }
+
+    /**
+     * Handles conflict exceptions.
+     * 
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex) {
+        log.warn("Conflict: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                ErrorResponse.of(409, "Conflict", ex.getMessage(), null));
     }
 
     /**
