@@ -1,8 +1,7 @@
 package com.jbk.taskboard.controller;
 
-import com.jbk.taskboard.dto.user.AppUserCreateRequestDTO;
+import com.jbk.taskboard.dto.user.AppUserRequestDTO;
 import com.jbk.taskboard.dto.user.AppUserResponseDTO;
-import com.jbk.taskboard.dto.user.AppUserUpdateRequestDTO;
 import com.jbk.taskboard.service.AppUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -48,7 +47,7 @@ public class AppUserController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<AppUserResponseDTO> create(@Valid @RequestBody AppUserCreateRequestDTO req,
+    public ResponseEntity<AppUserResponseDTO> create(@Valid @RequestBody AppUserRequestDTO req,
             UriComponentsBuilder uriBuilder) {
         log.info("[POST] /api/users - Creating user with email={}", req.email());
         AppUserResponseDTO res = service.create(req);
@@ -101,7 +100,7 @@ public class AppUserController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<AppUserResponseDTO> update(@PathVariable Long id,
-            @Valid @RequestBody AppUserUpdateRequestDTO req) {
+            @Valid @RequestBody AppUserRequestDTO req) {
         log.info("[PUT] /api/users/{} - Updating user", id);
         var res = service.update(id, req);
         log.info("User with id={} updated successfully", id);

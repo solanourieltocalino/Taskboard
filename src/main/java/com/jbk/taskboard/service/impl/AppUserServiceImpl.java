@@ -1,8 +1,7 @@
 package com.jbk.taskboard.service.impl;
 
-import com.jbk.taskboard.dto.user.AppUserCreateRequestDTO;
+import com.jbk.taskboard.dto.user.AppUserRequestDTO;
 import com.jbk.taskboard.dto.user.AppUserResponseDTO;
-import com.jbk.taskboard.dto.user.AppUserUpdateRequestDTO;
 import com.jbk.taskboard.entity.AppUser;
 import com.jbk.taskboard.exception.DuplicateEmailException;
 import com.jbk.taskboard.exception.NotFoundException;
@@ -48,15 +47,14 @@ public class AppUserServiceImpl implements AppUserService {
      * @throws DuplicateEmailException if the email is already in use.
      */
     @Override
-    public AppUserResponseDTO create(AppUserCreateRequestDTO req) {
+    public AppUserResponseDTO create(AppUserRequestDTO req) {
         log.info("Attempting to create user with email={}", req.email());
         if (repo.existsByEmail(req.email())) {
             log.warn("Duplicate email detected: {}", req.email());
             throw new DuplicateEmailException(req.email());
         }
 
-        AppUser entity = AppUserMapper.toEntity(req);
-        AppUser saved = repo.save(entity);
+        AppUser saved = repo.save(AppUserMapper.toEntity(req));
         log.info("User created successfully with id={}", saved.getId());
         return AppUserMapper.toResponse(saved);
     }
@@ -109,7 +107,7 @@ public class AppUserServiceImpl implements AppUserService {
      *                                 user.
      */
     @Override
-    public AppUserResponseDTO update(Long id, AppUserUpdateRequestDTO req) {
+    public AppUserResponseDTO update(Long id, AppUserRequestDTO req) {
         log.info("Updating user with id={}", id);
         AppUser entity = repo.findById(id)
                 .orElseThrow(() -> {
