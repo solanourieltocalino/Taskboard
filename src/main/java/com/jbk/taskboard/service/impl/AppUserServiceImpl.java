@@ -3,7 +3,7 @@ package com.jbk.taskboard.service.impl;
 import com.jbk.taskboard.dto.user.AppUserRequestDTO;
 import com.jbk.taskboard.dto.user.AppUserResponseDTO;
 import com.jbk.taskboard.entity.AppUser;
-import com.jbk.taskboard.exception.DuplicateEmailException;
+import com.jbk.taskboard.exception.BusinessRuleException;
 import com.jbk.taskboard.exception.NotFoundException;
 import com.jbk.taskboard.mapper.AppUserMapper;
 import com.jbk.taskboard.repository.AppUserRepository;
@@ -44,14 +44,14 @@ public class AppUserServiceImpl implements AppUserService {
      * 
      * @param req The user creation request DTO.
      * @return The created user as a response DTO.
-     * @throws DuplicateEmailException if the email is already in use.
+     * @throws BusinessRuleException if the email is already in use.
      */
     @Override
     public AppUserResponseDTO create(AppUserRequestDTO req) {
         log.info("Attempting to create user with email={}", req.email());
         if (repo.existsByEmail(req.email())) {
             log.warn("Duplicate email detected: {}", req.email());
-            throw new DuplicateEmailException(req.email());
+            throw new BusinessRuleException("Email already in use: " + req.email());
         }
 
         AppUser saved = repo.save(AppUserMapper.toEntity(req));
@@ -102,9 +102,8 @@ public class AppUserServiceImpl implements AppUserService {
      * @param id  The ID of the user to update.
      * @param req The user update request DTO.
      * @return The updated user as a response DTO.
-     * @throws NotFoundException       if the user is not found.
-     * @throws DuplicateEmailException if the new email is already in use by another
-     *                                 user.
+     * @throws NotFoundException     if the user is not found.
+     * @throws BusinessRuleException if the email is already in use by another user.
      */
     @Override
     public AppUserResponseDTO update(Long id, AppUserRequestDTO req) {
@@ -118,7 +117,7 @@ public class AppUserServiceImpl implements AppUserService {
         // Check for email uniqueness if the email is being changed
         if (!entity.getEmail().equalsIgnoreCase(req.email()) && repo.existsByEmail(req.email())) {
             log.warn("Duplicate email detected during update: {}", req.email());
-            throw new DuplicateEmailException(req.email());
+            throw new BusinessRuleException("Email already in use: " + req.email());
         }
 
         AppUserMapper.applyUpdate(entity, req);
