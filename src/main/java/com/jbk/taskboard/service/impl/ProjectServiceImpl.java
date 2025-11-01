@@ -4,7 +4,7 @@ import com.jbk.taskboard.dto.project.ProjectResponseDTO;
 import com.jbk.taskboard.dto.project.ProjectRequestDTO;
 import com.jbk.taskboard.entity.AppUser;
 import com.jbk.taskboard.entity.Project;
-import com.jbk.taskboard.exception.ConflictException;
+import com.jbk.taskboard.exception.BusinessRuleException;
 import com.jbk.taskboard.exception.NotFoundException;
 import com.jbk.taskboard.mapper.ProjectMapper;
 import com.jbk.taskboard.repository.AppUserRepository;
@@ -49,7 +49,8 @@ public class ProjectServiceImpl implements ProjectService {
      * 
      * @param req The project creation request DTO.
      * @return The created project as a response DTO.
-     * @throws ConflictException if the project name already exists for the owner.
+     * @throws BusinessRuleException if the project name already exists for the
+     *                               owner.
      */
     @Override
     public ProjectResponseDTO create(ProjectRequestDTO req) {
@@ -62,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (projectRepo.existsByOwner_IdAndNameIgnoreCase(req.ownerId(), req.name())) {
             log.warn("Duplicate project name '{}' for ownerId={}", req.name(), req.ownerId());
-            throw new ConflictException("Project name already exists for this owner");
+            throw new BusinessRuleException("Project name already exists for this owner");
         }
 
         Project saved = projectRepo.save(ProjectMapper.toEntity(req, owner));
@@ -113,8 +114,9 @@ public class ProjectServiceImpl implements ProjectService {
      * @param id  The ID of the project to update.
      * @param req The project update request DTO.
      * @return The updated project as a response DTO.
-     * @throws NotFoundException if the project or owner is not found.
-     * @throws ConflictException if the project name already exists for the owner.
+     * @throws NotFoundException     if the project or owner is not found.
+     * @throws BusinessRuleException if the project name already exists for the
+     *                               owner.
      */
     @Override
     public ProjectResponseDTO update(Long id, ProjectRequestDTO req) {
@@ -136,7 +138,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (projectRepo.existsByOwner_IdAndNameIgnoreCaseAndIdNot(targetOwnerId, targetName, id)) {
             log.warn("Duplicate project name '{}' for ownerId={}", targetName, targetOwnerId);
-            throw new ConflictException("Project name already exists for this owner");
+            throw new BusinessRuleException("Project name already exists for this owner");
         }
 
         ProjectMapper.applyUpdate(entity, req, newOwner);
@@ -144,6 +146,12 @@ public class ProjectServiceImpl implements ProjectService {
         return ProjectMapper.toResponse(entity);
     }
 
+    /**
+     * Deletes a project by ID.
+     * 
+     * @param id The ID of the project to delete.
+     * @throws NotFoundException if the project is not found.
+     */
     @Override
     public void delete(Long id) {
         log.info("Attempting to delete project with id={}", id);
