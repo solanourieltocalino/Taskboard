@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public ProjectResponseDTO getById(Long id) {
+    public ProjectResponseDTO getById(long id) {
         log.debug("Fetching project by id={}", id);
         Project found = projectRepo.findById(id)
                 .orElseThrow(() -> {
@@ -119,7 +119,7 @@ public class ProjectServiceImpl implements ProjectService {
      *                               owner.
      */
     @Override
-    public ProjectResponseDTO update(Long id, ProjectRequestDTO req) {
+    public ProjectResponseDTO update(long id, ProjectRequestDTO req) {
         log.info("Updating project with id={}", id);
         Project entity = projectRepo.findById(id)
                 .orElseThrow(() -> {
@@ -133,7 +133,7 @@ public class ProjectServiceImpl implements ProjectService {
                     return new NotFoundException("Owner not found: " + req.ownerId());
                 });
 
-        Long targetOwnerId = newOwner.getId();
+        long targetOwnerId = newOwner.getId();
         String targetName = req.name();
 
         if (projectRepo.existsByOwner_IdAndNameIgnoreCaseAndIdNot(targetOwnerId, targetName, id)) {
@@ -153,7 +153,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @throws NotFoundException if the project is not found.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         log.info("Attempting to delete project with id={}", id);
         if (!projectRepo.existsById(id)) {
             log.warn("Project not found: id={}", id);

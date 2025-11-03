@@ -13,7 +13,7 @@ import java.time.LocalDate;
  * The project field establishes a many-to-one relationship with the Project
  * entity.
  * Status and priority fields use enumerated types for predefined values.
- * Defaults: status = TODO, priority = MEDIUM.
+ * Defaults: status = TO​DO, priority = MEDIUM.
  */
 @Entity
 @Table(name = "task")
@@ -32,7 +32,7 @@ public class Task {
     @Column(name = "description", length = 1000)
     private String description;
 
-    // Task's status (enum: TODO, IN_PROGRESS, DONE). Default is TODO.
+    // Task's status (enum: TO​DO, IN_PROGRESS, DONE). Default is TO​DO.
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 10)
     private TaskStatus status = TaskStatus.TODO;

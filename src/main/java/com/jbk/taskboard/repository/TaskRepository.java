@@ -15,9 +15,9 @@ public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificat
 
     // Checks if a task exists for a given project ID and task title (case
     // insensitive).
-    boolean existsByProject_IdAndTitleIgnoreCase(Long projectId, String title);
+    boolean existsByProject_IdAndTitleIgnoreCase(long projectId, String title);
 
     // Checks if a task exists for a given project ID and task title (case
     // insensitive), excluding a specific task ID.
-    boolean existsByProject_IdAndTitleIgnoreCaseAndIdNot(Long projectId, String title, Long id);
+    boolean existsByProject_IdAndTitleIgnoreCaseAndIdNot(long projectId, String title, long id);
 }

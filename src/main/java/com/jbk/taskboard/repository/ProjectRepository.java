@@ -12,9 +12,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     // Checks if a project exists for a given owner ID and project name (case
     // insensitive).
-    boolean existsByOwner_IdAndNameIgnoreCase(Long ownerId, String name);
+    boolean existsByOwner_IdAndNameIgnoreCase(long ownerId, String name);
 
     // Checks if a project exists for a given owner ID and project name (case
     // insensitive), excluding a specific project ID.
-    boolean existsByOwner_IdAndNameIgnoreCaseAndIdNot(Long ownerId, String name, Long id);
+    boolean existsByOwner_IdAndNameIgnoreCaseAndIdNot(long ownerId, String name, long id);
 }

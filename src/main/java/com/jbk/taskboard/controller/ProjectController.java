@@ -65,7 +65,7 @@ public class ProjectController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> get(@PathVariable Long id) {
+    public ResponseEntity<ProjectResponseDTO> get(@PathVariable long id) {
         log.info("[GET] /api/projects/{} - Fetching project", id);
         var res = service.getById(id);
         log.debug("Project with id={} fetched successfully", id);
@@ -100,7 +100,7 @@ public class ProjectController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> update(@PathVariable Long id,
+    public ResponseEntity<ProjectResponseDTO> update(@PathVariable long id,
             @Valid @RequestBody ProjectRequestDTO req) {
         log.info("[PUT] /api/projects/{} - Updating project", id);
         var res = service.update(id, req);
@@ -116,7 +116,7 @@ public class ProjectController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         log.info("[DELETE] /api/projects/{} - Deleting project", id);
         service.delete(id);
         log.info("Project with id={} deleted successfully", id);

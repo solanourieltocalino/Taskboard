@@ -19,9 +19,9 @@ public record TaskCreateRequestDTO(
 
         @Size(max = 1000, message = "Description cannot exceed 1000 characters") String description,
 
-        TaskStatus status, // optional, default TODO if null
+        TaskStatus status, // optional, default TO​DO if null
         TaskPriority priority, // optional, default MEDIUM if null
         LocalDate dueDate, // optional, past allowed
 
-        @NotNull(message = "ProjectId is required") @Positive(message = "ProjectId must be > 0") Long projectId) {
+        @NotNull(message = "ProjectId is required") @Positive(message = "ProjectId must be > 0") long projectId) {
 }

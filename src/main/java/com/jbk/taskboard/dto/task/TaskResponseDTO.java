@@ -13,7 +13,7 @@ import java.time.LocalDate;
  * Includes nested project information.
  */
 public record TaskResponseDTO(
-        Long id,
+        long id,
         String title,
         String description,
         TaskStatus status,
@@ -22,7 +22,7 @@ public record TaskResponseDTO(
         LocalDate dueDate,
         ProjectResponseDTO project) {
 
-    public static TaskResponseDTO of(Long id, String title, String description, TaskStatus status,
+    public static TaskResponseDTO of(long id, String title, String description, TaskStatus status,
             TaskPriority priority, Instant createdAt, LocalDate dueDate, ProjectResponseDTO project) {
         return new TaskResponseDTO(id, title, description, status, priority, createdAt, dueDate, project);
     }

@@ -16,14 +16,14 @@ public interface AppUserService {
     AppUserResponseDTO create(AppUserRequestDTO req);
 
     // Retrieves a user by its ID.
-    AppUserResponseDTO getById(Long id);
+    AppUserResponseDTO getById(long id);
 
     // Returns a paginated list of users.
     Page<AppUserResponseDTO> list(int page, int size);
 
     // Updates an existing user by ID.
-    AppUserResponseDTO update(Long id, AppUserRequestDTO req);
+    AppUserResponseDTO update(long id, AppUserRequestDTO req);
 
     // Deletes a user by ID.
-    void delete(Long id);
+    void delete(long id);
 }

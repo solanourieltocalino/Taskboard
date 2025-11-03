@@ -22,5 +22,5 @@ public record TaskUpdateRequestDTO(
 
         LocalDate dueDate,
 
-        @NotNull(message = "ProjectId is required") @Positive(message = "ProjectId must be > 0") Long projectId) {
+        @NotNull(message = "ProjectId is required") @Positive(message = "ProjectId must be > 0") long projectId) {
 }

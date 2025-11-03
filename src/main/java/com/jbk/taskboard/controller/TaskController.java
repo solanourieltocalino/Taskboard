@@ -60,7 +60,7 @@ public class TaskController {
      * @return
      */
     @PostMapping("/api/projects/{projectId}/tasks")
-    public ResponseEntity<TaskResponseDTO> createForProject(@PathVariable Long projectId,
+    public ResponseEntity<TaskResponseDTO> createForProject(@PathVariable long projectId,
             @Valid @RequestBody TaskCreateForProjectRequestDTO req,
             UriComponentsBuilder uriBuilder) {
         log.info("[POST] /api/projects/{}/tasks - Creating task with title={}", projectId, req.title());
@@ -78,7 +78,7 @@ public class TaskController {
      * @return
      */
     @GetMapping("/api/tasks/{id}")
-    public ResponseEntity<TaskResponseDTO> get(@PathVariable Long id) {
+    public ResponseEntity<TaskResponseDTO> get(@PathVariable long id) {
         log.info("[GET] /api/tasks/{} - Fetching task", id);
         var res = service.getById(id);
         log.debug("Task with id={} fetched successfully", id);
@@ -103,7 +103,7 @@ public class TaskController {
             @RequestParam(defaultValue = "20") @Positive(message = "size must be >= 1") int size,
             @RequestParam(required = false) TaskStatus status,
             @RequestParam(required = false) TaskPriority priority,
-            @RequestParam(required = false) Long projectId) {
+            @RequestParam(required = false) long projectId) {
         log.info("[GET] /api/tasks - Listing tasks (page={}, size={}, status={}, priority={}, projectId={})", page,
                 size, status, priority, projectId);
         var res = service.list(page, size, status, priority, projectId);
@@ -120,7 +120,7 @@ public class TaskController {
      * @return
      */
     @PutMapping("/api/tasks/{id}")
-    public ResponseEntity<TaskResponseDTO> update(@PathVariable Long id,
+    public ResponseEntity<TaskResponseDTO> update(@PathVariable long id,
             @Valid @RequestBody TaskUpdateRequestDTO req) {
         log.info("[PUT] /api/tasks/{} - Updating task", id);
         var res = service.update(id, req);
@@ -136,7 +136,7 @@ public class TaskController {
      * @return
      */
     @DeleteMapping("/api/tasks/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         log.info("[DELETE] /api/tasks/{} - Deleting task", id);
         service.delete(id);
         log.info("Task with id={} deleted successfully", id);

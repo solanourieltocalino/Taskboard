@@ -64,7 +64,7 @@ public class AppUserController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<AppUserResponseDTO> get(@PathVariable Long id) {
+    public ResponseEntity<AppUserResponseDTO> get(@PathVariable long id) {
         log.info("[GET] /api/users/{} - Fetching user", id);
         var res = service.getById(id);
         log.debug("Fetched user: {}", res);
@@ -99,7 +99,7 @@ public class AppUserController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<AppUserResponseDTO> update(@PathVariable Long id,
+    public ResponseEntity<AppUserResponseDTO> update(@PathVariable long id,
             @Valid @RequestBody AppUserRequestDTO req) {
         log.info("[PUT] /api/users/{} - Updating user", id);
         var res = service.update(id, req);
@@ -115,7 +115,7 @@ public class AppUserController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         log.info("[DELETE] /api/users/{} - Deleting user", id);
         service.delete(id);
         log.info("User with id={} deleted successfully", id);

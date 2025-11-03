@@ -2,6 +2,7 @@ package com.jbk.taskboard.mapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 
 import com.jbk.taskboard.dto.project.ProjectResponseDTO;
 import com.jbk.taskboard.dto.task.*;
@@ -28,6 +29,7 @@ public final class TaskMapper {
      * @param project
      * @return
      */
+    @NonNull
     public static Task toEntity(TaskCreateRequestDTO req, Project project) {
         log.debug("Mapping TaskCreateRequestDTO to Task entity");
         Task t = new Task();
@@ -47,6 +49,7 @@ public final class TaskMapper {
      * @param project
      * @return
      */
+    @NonNull
     public static Task toEntity(TaskCreateForProjectRequestDTO req, Project project) {
         log.debug("Mapping TaskCreateForProjectRequestDTO to Task entity");
         Task t = new Task();
