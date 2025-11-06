@@ -1,79 +1,143 @@
-# JavaRefresh / TaskBoard 🧩
+# 🧩 TaskBoard – Java Backend API
 
-**TaskBoard** es un proyecto de práctica backend en **Spring Boot 3 + MySQL**, parte del plan de refresco de conocimientos en Java.  
-Incluye un CRUD completo con validaciones, paginación, manejo de errores y buenas prácticas de arquitectura.
+**TaskBoard** is a backend application built with **Spring Boot 3** and **MySQL 8**, designed as a **portfolio project** to demonstrate backend development skills with real-world structure, testing, and documentation.
+
+The API manages **Users**, **Projects**, and **Tasks** with full CRUD operations, validations, pagination, exception handling, and layered architecture.
 
 ---
 
-## 🧱 Stack Tecnológico
+## 🧱 Tech Stack
+
 - **Java 17 (Temurin)**
 - **Spring Boot 3.5.x**
-  - Spring Web  
-  - Spring Validation  
-  - Spring Data JPA  
-- **MySQL 8** (con contenedor Docker)
+  - Spring Web
+  - Spring Validation
+  - Spring Data JPA
+  - Flyway (database migrations)
+- **MySQL 8** (via Docker container)
 - **Maven 3.9+**
-- **Git + GitHub (flujo main/develop/feature)**
+- **JUnit 5 + Mockito + Jacoco**
+- **Git + GitHub** (main / develop / feature flow)
 
 ---
 
-## ⚙️ Configuración Rápida
+## ⚙️ Quick Setup
 
-**Base de datos:**
-```
-schema: taskboard  
-usuario: admin  
-contraseña: admin
+### Prerequisites
+
+- Java 17  
+- Maven 3.9+  
+- Docker & Docker Compose
+
+### Database
+
+MySQL service runs in Docker (configured for the `taskboard` schema):
+
+```bash
+docker compose up -d
 ```
 
-**Archivo `application.properties`:**
-```
-spring.datasource.url=jdbc:mysql://localhost:3306/taskboard
+---
+
+### 🗄️ Development Database Settings
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/taskboard?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
 spring.datasource.username=admin
 spring.datasource.password=admin
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
 ```
 
 ---
 
-## ▶️ Ejecución del proyecto
+### ▶️ Running the Application
+
 ```bash
 mvn clean package
 mvn spring-boot:run
 ```
-La app arranca en: [http://localhost:8080](http://localhost:8080)
+
+The app starts at: http://localhost:8080
 
 ---
 
-## 🧩 Flujo de desarrollo (Git)
+### 🧪 Testing
 
-| Rama | Propósito |
-|------|------------|
-| **main** | Producción estable |
-| **develop** | Integración y pruebas |
-| **feature/*** | Desarrollo de nuevas funciones o fixes |
+Unit tests are implemented using **JUnit 5** and **Mockito**, covering service and exception layers.  
+Code coverage reports are generated via **Jacoco**.
 
-### Ejemplo de flujo:
+#### 🧷 Run all tests
+```bash
+mvn test
+```
+
+#### 🧷 Run a single test class
+```bash
+mvn -Dtest=AppUserServiceImplTest test
+```
+
+---
+
+### 🧩 API Structure
+
+| **Resource** | **Methods** | **Description** |
+|---------------|-------------|-----------------|
+| `/users` | `GET`, `POST`, `PUT`, `DELETE` | CRUD for application users |
+| `/projects` | `GET`, `POST`, `PUT`, `DELETE` | CRUD for projects linked to users |
+| `/tasks` | `GET`, `POST`, `PUT`, `DELETE` | CRUD for tasks with filters by status, priority, and project |
+
+---
+
+### 📬 Postman Collection
+
+A complete **Postman collection** and **environment** are included under:
+```bash
+docs/postman/Taskboard.postman_collection.json
+docs/postman/Taskboard.postman_environment.json
+```
+Import them in Postman and set the baseURL variable to your local or deployed API.
+
+---
+
+### 🧱 Git Branch Workflow
+
+| **Branch** | **Purpose** |
+|-------------|-------------|
+| **main** | Stable production branch |
+| **develop** | Integration/testing branch |
+| **feature/*** | Feature or fix branches |
+
+---
+
+#### 🧩 Example workflow
+
 ```bash
 git checkout develop
 git pull
-git checkout -b feature/tareas-crud
-# cambios + commits
-git push -u origin feature/tareas-crud
+git checkout -b feature/tasks-crud
+# make changes and commits
+git push -u origin feature/tasks-crud
 ```
-Luego, crear **Pull Request → develop** desde GitHub.
+
+Then create a Pull Request → develop on GitHub.
 
 ---
 
 ## ✅ DoD (Definition of Done)
-- Código compila y levanta sin errores.  
-- Tests pasan correctamente.  
-- Validaciones y mensajes claros.  
-- Código limpio, sin warnings.  
-- README y Postman Collection actualizados.  
+- Project builds and runs without errors
+- All tests pass successfully
+- Validation and error messages are clear  
+- Clean code, no warnings
+- Updated README and Postman collection
 
 ---
 
-## 📄 Licencia
-Proyecto de práctica personal – uso libre con fines educativos.
+## 👤 Author
+
+#### Solano Tocalino
+- LinkedIn: https://www.linkedin.com/in/solanotocalino
+- GitHub: https://github.com/solanourieltocalino
+
+---
+
+## 📄 License
+Personal educational project — free for learning and reference purposes.
