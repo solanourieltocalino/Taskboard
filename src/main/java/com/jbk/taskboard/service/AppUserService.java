@@ -25,5 +25,5 @@ public interface AppUserService {
     AppUserResponseDTO update(Long id, AppUserRequestDTO req);
 
     // Deletes a user by ID.
-    void delete(Long id);
+    void delete(long id);
 }

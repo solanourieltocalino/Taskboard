@@ -132,7 +132,7 @@ public class AppUserServiceImpl implements AppUserService {
      * @throws NotFoundException if the user is not found.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         log.info("Attempting to delete user with id={}", id);
         if (!repo.existsById(id)) {
             log.warn("User not found: id={}", id);
