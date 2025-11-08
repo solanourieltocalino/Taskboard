@@ -34,7 +34,7 @@ The API manages **Users**, **Projects**, and **Tasks** with full CRUD operations
 MySQL service runs in Docker (configured for the `taskboard` schema):
 
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
 ---

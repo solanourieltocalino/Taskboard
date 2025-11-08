@@ -21,8 +21,8 @@ public record TaskCreateForProjectRequestDTO(
 
         @Size(max = 1000, message = "description must be <= 1000 characters") String description,
 
-        TaskStatus status, // optional
-        TaskPriority priority, // optional
-        LocalDate dueDate // optional
+        TaskStatus status, // optional, default TO​DO if null
+        TaskPriority priority, // optional, default MEDIUM if null
+        LocalDate dueDate // optional, past allowed
 ) {
 }
