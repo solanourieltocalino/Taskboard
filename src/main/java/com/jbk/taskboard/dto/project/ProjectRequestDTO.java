@@ -11,5 +11,5 @@ public record ProjectRequestDTO(
 
         @Size(max = 500, message = "Description cannot exceed 500 characters") String description,
 
-        @NotNull(message = "OwnerId is required") @Positive(message = "OwnerId must be > 0") Long ownerId) {
+        @NotNull(message = "OwnerId is required") @Positive(message = "OwnerId must be > 0") long ownerId) {
 }

@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
      *                               the project.
      */
     @Override
-    public TaskResponseDTO createForProject(Long projectId, TaskCreateForProjectRequestDTO req) {
+    public TaskResponseDTO createForProject(long projectId, TaskCreateForProjectRequestDTO req) {
         log.info("Attempting to create task with title='{}' for projectId={}", req.title(), projectId);
         Project project = projectRepo.findById(projectId)
                 .orElseThrow(() -> {
@@ -113,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     @Transactional(readOnly = true)
-    public TaskResponseDTO getById(Long id) {
+    public TaskResponseDTO getById(long id) {
         log.debug("Fetching task by id={}", id);
         Task found = taskRepo.findById(id)
                 .orElseThrow(() -> {
@@ -161,7 +161,7 @@ public class TaskServiceImpl implements TaskService {
      *                               the target project.
      */
     @Override
-    public TaskResponseDTO update(Long id, TaskUpdateRequestDTO req) {
+    public TaskResponseDTO update(long id, TaskUpdateRequestDTO req) {
         log.info("Updating task with id={}", id);
         Task entity = taskRepo.findById(id)
                 .orElseThrow(() -> {
@@ -169,7 +169,7 @@ public class TaskServiceImpl implements TaskService {
                     return new NotFoundException("Task not found: " + id);
                 });
 
-        Long targetProjectId = req.projectId();
+        long targetProjectId = req.projectId();
         Project targetProject = projectRepo.findById(targetProjectId)
                 .orElseThrow(() -> {
                     log.warn("Target project not found: id={}", targetProjectId);
@@ -193,7 +193,7 @@ public class TaskServiceImpl implements TaskService {
      * @throws NotFoundException if the task is not found.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         log.info("Attempting to delete task with id={}", id);
         if (!taskRepo.existsById(id)) {
             log.warn("Task not found: id={}", id);

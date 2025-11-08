@@ -17,18 +17,18 @@ public interface TaskService {
     TaskResponseDTO create(TaskCreateRequestDTO req);
 
     // Creates a new task for a specific project and returns the created task DTO.
-    TaskResponseDTO createForProject(Long projectId, TaskCreateForProjectRequestDTO req);
+    TaskResponseDTO createForProject(long projectId, TaskCreateForProjectRequestDTO req);
 
     // Retrieves a task by its ID.
-    TaskResponseDTO getById(Long id);
+    TaskResponseDTO getById(long id);
 
     // Returns a paginated list of tasks with optional filtering by status,
     // priority, and project ID.
     Page<TaskResponseDTO> list(Integer page, Integer size, TaskStatus status, TaskPriority priority, Long projectId);
 
     // Updates an existing task by ID.
-    TaskResponseDTO update(Long id, TaskUpdateRequestDTO req);
+    TaskResponseDTO update(long id, TaskUpdateRequestDTO req);
 
     // Deletes a task by ID.
-    void delete(Long id);
+    void delete(long id);
 }

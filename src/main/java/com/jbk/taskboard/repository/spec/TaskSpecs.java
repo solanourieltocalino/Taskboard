@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
  * These specifications can be combined to build dynamic queries.
  * Usage example:
  * Specification<Task> spec =
- * Specification.where(TaskSpecs.hasStatus(TaskStatus.TODO))
+ * Specification.where(TaskSpecs.hasStatus(TaskStatus.TO​DO))
  * .and(TaskSpecs.hasPriority(TaskPriority.HIGH));
  */
 public final class TaskSpecs {

@@ -17,14 +17,14 @@ public interface ProjectService {
     ProjectResponseDTO create(ProjectRequestDTO req);
 
     // Retrieves a project by its ID.
-    ProjectResponseDTO getById(Long id);
+    ProjectResponseDTO getById(long id);
 
     // Returns a paginated list of projects.
     Page<ProjectResponseDTO> list(int page, int size);
 
     // Updates an existing project by ID.
-    ProjectResponseDTO update(Long id, ProjectRequestDTO req);
+    ProjectResponseDTO update(long id, ProjectRequestDTO req);
 
     // Deletes a project by ID.
-    void delete(Long id);
+    void delete(long id);
 }

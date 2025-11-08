@@ -2,6 +2,7 @@ package com.jbk.taskboard.mapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 
 import com.jbk.taskboard.dto.project.*;
 import com.jbk.taskboard.dto.user.AppUserResponseDTO;
@@ -29,6 +30,7 @@ public final class ProjectMapper {
      * @param owner
      * @return
      */
+    @NonNull
     public static Project toEntity(ProjectRequestDTO req, AppUser owner) {
         log.debug("Mapping ProjectRequestDTO to Project entity");
         Project p = new Project();

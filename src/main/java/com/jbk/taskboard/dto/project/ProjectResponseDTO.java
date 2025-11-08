@@ -12,22 +12,22 @@ import com.jbk.taskboard.dto.user.AppUserResponseDTO;
  * Includes nested owner information.
  */
 public record ProjectResponseDTO(
-        Long id,
+        long id,
         String name,
         String description,
         @JsonInclude(Include.NON_NULL) Instant createdAt,
         AppUserResponseDTO owner) {
 
-    public ProjectResponseDTO(Long id, String name, String description, AppUserResponseDTO owner) {
+    public ProjectResponseDTO(long id, String name, String description, AppUserResponseDTO owner) {
         this(id, name, description, null, owner);
     }
 
-    public static ProjectResponseDTO of(Long id, String name, String description, Instant createdAt,
+    public static ProjectResponseDTO of(long id, String name, String description, Instant createdAt,
             AppUserResponseDTO owner) {
         return new ProjectResponseDTO(id, name, description, createdAt, owner);
     }
 
-    public static ProjectResponseDTO of(Long id, String name, String description, AppUserResponseDTO owner) {
+    public static ProjectResponseDTO of(long id, String name, String description, AppUserResponseDTO owner) {
         return new ProjectResponseDTO(id, name, description, owner);
     }
 }

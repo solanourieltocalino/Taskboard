@@ -68,7 +68,7 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     @Transactional(readOnly = true)
-    public AppUserResponseDTO getById(Long id) {
+    public AppUserResponseDTO getById(long id) {
         log.debug("Fetching user by id={}", id);
         AppUser found = repo.findById(id)
                 .orElseThrow(() -> {
@@ -106,7 +106,7 @@ public class AppUserServiceImpl implements AppUserService {
      * @throws BusinessRuleException if the email is already in use by another user.
      */
     @Override
-    public AppUserResponseDTO update(Long id, AppUserRequestDTO req) {
+    public AppUserResponseDTO update(long id, AppUserRequestDTO req) {
         log.info("Updating user with id={}", id);
         AppUser entity = repo.findById(id)
                 .orElseThrow(() -> {
@@ -132,7 +132,7 @@ public class AppUserServiceImpl implements AppUserService {
      * @throws NotFoundException if the user is not found.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         log.info("Attempting to delete user with id={}", id);
         if (!repo.existsById(id)) {
             log.warn("User not found: id={}", id);

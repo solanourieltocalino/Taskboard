@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.jbk.taskboard.dto.user.*;
 import com.jbk.taskboard.entity.AppUser;
 
+import org.springframework.lang.NonNull;
+
 /**
  * Mapper class for converting between AppUser entities and DTOs.
  * Provides methods to convert create and update request DTOs to entities,
@@ -25,6 +27,7 @@ public final class AppUserMapper {
      * @param req
      * @return
      */
+    @NonNull
     public static AppUser toEntity(AppUserRequestDTO req) {
         log.debug("Mapping AppUserCreateRequestDTO to AppUser entity");
         AppUser u = new AppUser();
