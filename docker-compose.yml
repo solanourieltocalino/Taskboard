@@ -1,17 +1,18 @@
-services:
-  mysql:
-    image: mysql:8
-    container_name: mysql8
-    restart: always
-    environment:
+services:                         # List of services (apps or containers)
+  mysql:                          # Name of service
+    image: mysql:8                # Docker Hub base image
+    container_name: mysql8        # Name of container
+    restart: always               # If it turns off, it restarts
+    environment:                  # Environment variables for MySQL
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: taskboard
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
-      - "3306:3306"
+      - "3306:3306"               # Exposes container port 3306 to local port 3306
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql # It stores the data on a persistent volume
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d   # Run initial SQL scripts on first container startup
 
-volumes:
-  mysql_data:
+volumes:                          # Volume definition
+  mysql_data:                     # Volume name used above
