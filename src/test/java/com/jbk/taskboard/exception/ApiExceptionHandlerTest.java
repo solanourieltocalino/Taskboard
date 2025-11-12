@@ -18,6 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Web slice test for ApiExceptionHandler.
  * It registers a DummyController to trigger exceptions handled by the advice.
+ * Uses MockMvc to perform HTTP requests and verify that the exceptions are
+ * translated into appropriate HTTP responses.
  */
 @ActiveProfiles("webmvc-test")
 @WebMvcTest(controllers = DummyController.class)
@@ -31,7 +33,11 @@ class ApiExceptionHandlerTest {
     @Autowired
     private ObjectMapper om;
 
-    // ---- 404: NotFoundException ----
+    /**
+     * ---- 404: NotFoundException ----
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn404_whenNotFoundException() throws Exception {
@@ -43,7 +49,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.message").value("User not found")); // message sent by the dummy
     }
 
-    // ---- 400: MethodArgumentNotValidException (invalid body) ----
+    /**
+     * ---- 400: MethodArgumentNotValidException (body validation) ----
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn400_whenBodyValidationFails() throws Exception {
@@ -59,7 +69,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.messages.name").exists());
     }
 
-    // ---- 400: MethodArgumentTypeMismatchException (invalid param type) ----
+    /**
+     * ---- 400: MethodArgumentTypeMismatchException (type mismatch) ----
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn400_whenTypeMismatchOnQueryParam() throws Exception {
@@ -71,7 +85,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.messages.size").exists());
     }
 
-    // ---- 409: BusinessRuleException ----
+    /**
+     * ---- 409: BusinessRuleException ----
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn409_whenBusinessRuleException() throws Exception {

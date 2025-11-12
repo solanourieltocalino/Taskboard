@@ -56,8 +56,19 @@ class ProjectServiceImplTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    // --- create ---
+    // --- CREATE ---
 
+    /**
+     * Should create project when owner exists and name is unique.
+     * Verifies that the repository's findById, existsByOwner_IdAndNameIgnoreCase,
+     * and save methods are called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException     if owner is not found (not
+     *                               expected in this test).
+     * @throws BusinessRuleException when project name is not
+     *                               unique for owner.
+     */
     @SuppressWarnings("null")
     @Test
     void shouldCreateProject_whenOwnerExistsAndNameUnique() {
@@ -84,6 +95,14 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw NotFoundException when creating project with missing owner.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException     when owner is not found.
+     * @throws BusinessRuleException when project name is not
+     *                               unique for owner.
+     */
     @Test
     void shouldThrowNotFound_whenCreateOwnerMissing() {
         // Arrange
@@ -98,6 +117,18 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw BusinessRuleException when creating project with duplicate name
+     * per owner.
+     * Verifies that the repository's findById and existsByOwner_IdAndNameIgnoreCase
+     * methods are called.
+     * Asserts that no project is saved.
+     * 
+     * @throws NotFoundException     if owner is not found (not
+     *                               expected in this test).
+     * @throws BusinessRuleException when project name is not
+     *                               unique for owner.
+     */
     @Test
     void shouldThrowBusinessRule_whenCreateDuplicateNamePerOwner() {
         // Arrange
@@ -116,8 +147,16 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
-    // --- getById ---
+    // --- GET BY ID ---
 
+    /**
+     * Should return project when getById exists.
+     * Verifies that the repository's findById method is called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException if project is not found (not expected in this
+     *                           test).
+     */
     @Test
     void shouldReturnProject_whenGetByIdExists() {
         // Arrange
@@ -136,6 +175,12 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw NotFoundException when getById missing.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException if project is not found (expected in this test).
+     */
     @Test
     void shouldThrowNotFound_whenGetByIdMissing() {
         // Arrange
@@ -149,8 +194,17 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
-    // --- list ---
+    // --- LIST ---
 
+    /**
+     * Should list projects with pagination.
+     * Verifies that the repository's findAll method is called.
+     * Asserts that the returned page has the expected content and order.
+     * 
+     * @throws NotFoundException if any referenced entity is not found (not expected
+     *                           in
+     *                           this test).
+     */
     @SuppressWarnings("null")
     @Test
     void shouldListProjects_withPagination() {
@@ -172,8 +226,18 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
-    // --- update ---
+    // --- UPDATE ---
 
+    /**
+     * Should update project when owner exists and name is unique.
+     * Verifies that the repository's findById,
+     * existsByOwner_IdAndNameIgnoreCaseAndIdNot,
+     * and save methods are called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException     if project or owner is not found.
+     * @throws BusinessRuleException when project name is not unique per owner.
+     */
     @Test
     void shouldUpdateProject_whenOwnerExistsAndNameUnique() {
         // Arrange
@@ -201,6 +265,13 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw NotFoundException when updating project with missing project.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException     when project is not found.
+     * @throws BusinessRuleException when project name is not unique per owner.
+     */
     @Test
     void shouldThrowNotFound_whenUpdateProjectMissing() {
         // Arrange
@@ -215,6 +286,13 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw NotFoundException when updating project with missing owner.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException     when owner is not found.
+     * @throws BusinessRuleException when project name is not unique per owner.
+     */
     @Test
     void shouldThrowNotFound_whenUpdateOwnerMissing() {
         // Arrange
@@ -234,6 +312,15 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw BusinessRuleException when updating project with duplicate name
+     * per owner.
+     * Verifies that the repository's findById and
+     * existsByOwner_IdAndNameIgnoreCaseAndIdNot methods are called.
+     * 
+     * @throws NotFoundException     when project or owner is not found.
+     * @throws BusinessRuleException when project name is not unique per owner.
+     */
     @Test
     void shouldThrowBusinessRule_whenUpdateDuplicateNamePerOwner() {
         // Arrange
@@ -255,8 +342,15 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
-    // --- delete ---
+    // --- DELETE ---
 
+    /**
+     * Should delete project when it exists.
+     * Verifies that the repository's existsById and deleteById methods are called.
+     * 
+     * @throws NotFoundException if project is not found (not expected in this
+     *                           test).
+     */
     @Test
     void shouldDelete_whenExists() {
         // Arrange
@@ -271,6 +365,12 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
+    /**
+     * Should throw NotFoundException when deleting missing project.
+     * Verifies that the repository's existsById method is called.
+     * 
+     * @throws NotFoundException when project is not found.
+     */
     @Test
     void shouldThrowNotFound_whenDeleteMissing() {
         // Arrange
@@ -284,8 +384,14 @@ class ProjectServiceImplTest {
         verifyNoMoreInteractions(projectRepo, userRepo);
     }
 
-    // --- simple DTO validation ---
+    // --- SIMPLE DTO VALIDATION ---
 
+    /**
+     * Should fail validation when name is blank.
+     * Asserts that the validation violations contain an entry for the name field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenNameBlank() {
         // Arrange

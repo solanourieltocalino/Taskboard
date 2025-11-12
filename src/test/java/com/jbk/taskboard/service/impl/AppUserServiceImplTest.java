@@ -49,8 +49,17 @@ class AppUserServiceImplTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    // --- create ---
+    // --- CREATE ---
 
+    /**
+     * Should create a new user when email does not already exist.
+     * Verifies that the repository's existsByEmail and save methods are called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws BusinessRuleException if email already exists (not
+     *                               expected in this
+     *                               test).
+     */
     @SuppressWarnings("null")
     @Test
     void shouldCreateUser_whenEmailNotExists() {
@@ -72,6 +81,14 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should throw BusinessRuleException when trying to create a user with an email
+     * that already exists.
+     * Verifies that the repository's existsByEmail method is called and no user is
+     * saved.
+     * 
+     * @throws BusinessRuleException when email already exists.
+     */
     @Test
     void shouldThrowBusinessRule_whenCreateWithDuplicateEmail() {
         // Arrange
@@ -86,8 +103,15 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
-    // --- getById ---
+    // --- GET BY ID ---
 
+    /**
+     * Should return user when getById exists.
+     * Verifies that the repository's findById method is called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException if user is not found (not expected in this test).
+     */
     @Test
     void shouldReturnUser_whenGetByIdExists() {
         // Arrange
@@ -105,6 +129,12 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should throw NotFoundException when getById does not exist.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException when user is not found.
+     */
     @Test
     void shouldThrowNotFound_whenGetByIdMissing() {
         // Arrange
@@ -118,8 +148,14 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
-    // --- list ---
+    // --- LIST ---
 
+    /**
+     * Should list users with pagination.
+     * Verifies that the repository's findAll method is called with correct
+     * Pageable.
+     * Asserts that the returned Page contains expected users in correct order.
+     */
     @SuppressWarnings("null")
     @Test
     void shouldListUsers_withPagination() {
@@ -140,8 +176,18 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
-    // --- update ---
+    // --- UPDATE ---
 
+    /**
+     * Should update user when email is changed and not taken.
+     * Verifies that the repository's findById and existsByEmail methods are called.
+     * Asserts that the returned DTO has the updated values.
+     * 
+     * @throws NotFoundException     if user is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if new email is already taken (not expected in
+     *                               this test).
+     */
     @Test
     void shouldUpdateUser_whenEmailChangedAndNotTaken() {
         // Arrange
@@ -162,6 +208,14 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should not check email uniqueness when email is unchanged during update.
+     * Verifies that the repository's findById method is called and
+     * existsByEmail is not called.
+     * Asserts that the returned DTO has the updated name and unchanged email.
+     * 
+     * @throws NotFoundException if user is not found (not expected in this test).
+     */
     @Test
     void shouldNotCheckEmailUniqueness_whenEmailUnchanged() {
         // Arrange
@@ -180,6 +234,15 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should throw BusinessRuleException when updating user with an email that is
+     * already taken by another user.
+     * Verifies that the repository's findById and existsByEmail methods are called.
+     * 
+     * @throws NotFoundException     if user is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException when new email is already taken.
+     */
     @Test
     void shouldThrowBusinessRule_whenUpdateEmailTaken() {
         // Arrange
@@ -197,6 +260,12 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should throw NotFoundException when updating a non-existing user.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException when user is not found.
+     */
     @Test
     void shouldThrowNotFound_whenUpdateMissing() {
         // Arrange
@@ -211,8 +280,14 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
-    // --- delete ---
+    // --- DELETE ---
 
+    /**
+     * Should delete user when it exists.
+     * Verifies that the repository's existsById and deleteById methods are called.
+     * 
+     * @throws NotFoundException if user does not exist (not expected in this test).
+     */
     @Test
     void shouldDelete_whenExists() {
         // Arrange
@@ -227,6 +302,12 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
+    /**
+     * Should throw NotFoundException when deleting a non-existing user.
+     * Verifies that the repository's existsById method is called.
+     * 
+     * @throws NotFoundException when user does not exist.
+     */
     @Test
     void shouldThrowNotFound_whenDeleteMissing() {
         // Arrange
@@ -240,8 +321,14 @@ class AppUserServiceImplTest {
         verifyNoMoreInteractions(repo);
     }
 
-    // --- simple DTO validation ---
+    // --- SIMPLE DTO VALIDATION ---
 
+    /**
+     * Should fail validation when name is blank.
+     * Asserts that the validation violations contain an entry for the name field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenNameBlank() {
         // Arrange
@@ -255,6 +342,12 @@ class AppUserServiceImplTest {
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("name"));
     }
 
+    /**
+     * Should fail validation when email is not valid.
+     * Asserts that the validation violations contain an entry for the email field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenEmailNotValid() {
         // Arrange
