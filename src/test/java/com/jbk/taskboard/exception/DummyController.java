@@ -10,29 +10,52 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Dummy controller used in ApiExceptionHandlerTest to trigger exceptions.
+ */
 @Profile("webmvc-test")
 @Validated
 @RestController
 @RequestMapping("/dummy")
 public class DummyController {
 
+    /**
+     * Throw NotFoundException
+     * 
+     * @return
+     */
     @GetMapping("/notfound")
     public String notFound() {
         throw new NotFoundException("User not found");
     }
 
-    // Throw MethodArgumentNotValidException
+    /**
+     * Validate request body to trigger MethodArgumentNotValidException
+     * 
+     * @param body
+     * @return
+     */
     @PostMapping(value = "/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String validateBody(@Valid @RequestBody CreatePayload body) {
         return "ok";
     }
 
-    // Throw MethodArgumentTypeMismatchException automatically
+    /**
+     * Trigger MethodArgumentTypeMismatchException
+     * 
+     * @param size
+     * @return
+     */
     @GetMapping("/type-mismatch")
     public String typeMismatch(@RequestParam int size) {
         return "ok:" + size;
     }
 
+    /**
+     * Throw BusinessRuleException
+     * 
+     * @return
+     */
     @GetMapping("/conflict")
     public String conflict() {
         throw new BusinessRuleException("Duplicate email");
@@ -121,7 +144,9 @@ public class DummyController {
         throw new RuntimeException("boom");
     }
 
-    // Minimum payload to validate @NotBlank
+    /**
+     * Payload class for body validation
+     */
     public static class CreatePayload {
         @NotBlank(message = "name is required")
         public String name;

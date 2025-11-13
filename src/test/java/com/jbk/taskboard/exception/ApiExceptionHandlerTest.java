@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Web slice test for ApiExceptionHandler.
  * It registers a DummyController to trigger exceptions handled by the advice.
+ * Uses MockMvc to perform HTTP requests and verify that the exceptions are
+ * translated into appropriate HTTP responses.
  */
 @ActiveProfiles("webmvc-test")
 @WebMvcTest(controllers = DummyController.class)
@@ -36,7 +38,11 @@ class ApiExceptionHandlerTest {
     @Autowired
     private ObjectMapper om;
 
-    // ---- 400: MethodArgumentNotValidException (invalid body) ----
+    /**
+     * 400: MethodArgumentNotValidException (body validation fails)
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn400_whenBodyValidationFails() throws Exception {
@@ -66,7 +72,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.messages['constraint.size']").exists());
     }
 
-    // ---- 400: MethodArgumentTypeMismatchException (invalid param type) ----
+    /**
+     * 400: MethodArgumentTypeMismatchException (type mismatch on query param)
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn400_whenTypeMismatchOnQueryParam() throws Exception {
@@ -121,7 +131,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.messages.q").value("is required"));
     }
 
-    // ---- 404: NotFoundException ----
+    /**
+     * 404: NotFoundException
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn404_whenNotFoundException() throws Exception {
@@ -173,7 +187,11 @@ class ApiExceptionHandlerTest {
                 .andExpect(status().isNotAcceptable()); // no body expected because it can be empty
     }
 
-    // ---- 409: BusinessRuleException ----
+    /**
+     * 409: BusinessRuleException
+     * 
+     * @throws Exception
+     */
     @SuppressWarnings("null")
     @Test
     void shouldReturn409_whenBusinessRuleException() throws Exception {

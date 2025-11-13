@@ -15,6 +15,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * REST controller that exposes CRUD endpoints for tasks.
+ * Uses TaskService to handle business logic.
+ * All endpoints return appropriate HTTP status codes and responses.
+ * 
+ * @Validated enables method-level validation for request parameters.
+ */
 @Validated
 @RestController
 @RequestMapping
