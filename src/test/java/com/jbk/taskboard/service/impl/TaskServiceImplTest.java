@@ -61,8 +61,20 @@ class TaskServiceImplTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    // --- create ---
+    // --- CREATE ---
 
+    /**
+     * Should create task when project exists and title is unique.
+     * Verifies that the repository's findById,
+     * existsByProject_IdAndTitleIgnoreCase,
+     * and save methods are called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException     if project is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if task title already exists in project (not
+     *                               expected in this test).
+     */
     @SuppressWarnings("null")
     @Test
     void shouldCreateTask_whenProjectExistsAndTitleUnique() {
@@ -94,6 +106,13 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when creating task with missing project.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @throws NotFoundException     if project is not found.
+     * @throws BusinessRuleException if task title already exists in project.
+     */
     @Test
     void shouldThrowNotFound_whenCreateProjectMissing() {
         // Arrange
@@ -108,6 +127,17 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw BusinessRuleException when creating task with duplicate title in
+     * project.
+     * Verifies that the repository's findById and
+     * existsByProject_IdAndTitleIgnoreCase methods are called.
+     * 
+     * @throws NotFoundException     if project is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if task title already exists in project (not
+     *                               expected in this test).
+     */
     @Test
     void shouldThrowBusinessRule_whenCreateDuplicateTitleInProject() {
         // Arrange
@@ -127,8 +157,21 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- createForProject ---
+    // --- CREATE FOR PROJECT ---
 
+    /**
+     * Should create task for project when project exists and title is unique.
+     * Verifies that the repository's findById,
+     * existsByProject_IdAndTitleIgnoreCase, and save methods are called.
+     * 
+     * @param projectId
+     * @param req
+     * @return
+     * @throws NotFoundException     if project is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if task title already exists in project (not
+     *                               expected in this test).
+     */
     @SuppressWarnings("null")
     @Test
     void shouldCreateTaskForProject_whenProjectExistsAndTitleUnique() {
@@ -158,6 +201,20 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw BusinessRuleException when creating task for project with
+     * duplicate title.
+     * Verifies that the repository's findById and
+     * existsByProject_IdAndTitleIgnoreCase methods are called.
+     * 
+     * @param projectId
+     * @param req
+     * @return
+     * @throws NotFoundException     if project is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if task title already exists in project (not
+     *                               expected in this test).
+     */
     @Test
     void shouldThrowBusinessRule_whenCreateForProjectDuplicateTitle() {
         // Arrange
@@ -177,6 +234,17 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when creating task for project with missing
+     * project.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @param projectId
+     * @param req
+     * @return
+     * @throws NotFoundException     if project is not found.
+     * @throws BusinessRuleException if task title already exists in project.
+     */
     @Test
     void shouldThrowNotFound_whenCreateForProjectProjectMissing() {
         // Arrange
@@ -191,8 +259,15 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- getById ---
+    // --- GET BY ID ---
 
+    /**
+     * Should return task when getById exists.
+     * Verifies that the repository's findById method is called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @throws NotFoundException if task is not found.
+     */
     @Test
     void shouldReturnTask_whenGetByIdExists() {
         // Arrange
@@ -213,6 +288,13 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when getById missing.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @param id
+     * @throws NotFoundException if task is not found.
+     */
     @Test
     void shouldThrowNotFound_whenGetByIdMissing() {
         // Arrange
@@ -226,8 +308,26 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- list (with filters) ---
+    // --- LIST (WITH FILTERS) ---
 
+    /**
+     * Should list tasks with filters and pagination.
+     * Verifies that the repository's findAll method is called with correct
+     * parameters.
+     * Asserts that the returned page has the expected content and total elements.
+     * 
+     * @param page
+     * @param size
+     * @param status
+     * @param priority
+     * @param projectId
+     * @return
+     * @throws NotFoundException     if project is not found (not expected in this
+     *                               test).
+     * @throws BusinessRuleException if invalid filters are provided (not expected
+     *                               in
+     *                               this test).
+     */
     @SuppressWarnings("null")
     @Test
     void shouldListTasks_withFiltersAndPagination() {
@@ -250,8 +350,20 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- update ---
+    // --- UPDATE ---
 
+    /**
+     * Should update task when target project exists and title is unique.
+     * Verifies that the repository's findById, findById, and
+     * existsByProject_IdAndTitleIgnoreCaseAndIdNot methods are called.
+     * Asserts that the returned DTO has the expected values.
+     * 
+     * @param id
+     * @param req
+     * @return
+     * @throws NotFoundException     if task or project is not found.
+     * @throws BusinessRuleException if task title already exists in target project.
+     */
     @Test
     void shouldUpdateTask_whenTargetProjectExistsAndTitleUnique() {
         // Arrange
@@ -283,6 +395,15 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when updating task with missing task.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @param id
+     * @param req
+     * @throws NotFoundException     if task is not found.
+     * @throws BusinessRuleException if task title already exists in target project.
+     */
     @Test
     void shouldThrowNotFound_whenUpdateTaskMissing() {
         // Arrange
@@ -298,6 +419,16 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when updating task with missing target
+     * project.
+     * Verifies that the repository's findById method is called.
+     * 
+     * @param id
+     * @param req
+     * @throws NotFoundException     if project is not found.
+     * @throws BusinessRuleException if task title already exists in target project.
+     */
     @Test
     void shouldThrowNotFound_whenUpdateTargetProjectMissing() {
         // Arrange
@@ -320,6 +451,17 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw BusinessRuleException when updating task with duplicate title in
+     * target project.
+     * Verifies that the repository's findById and
+     * existsByProject_IdAndTitleIgnoreCaseAndIdNot methods are called.
+     * 
+     * @param id
+     * @param req
+     * @throws NotFoundException     if task or project is not found.
+     * @throws BusinessRuleException if task title already exists in target project.
+     */
     @Test
     void shouldThrowBusinessRule_whenUpdateDuplicateTitleInTargetProject() {
         // Arrange
@@ -343,8 +485,15 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- delete ---
+    // --- DELETE ---
 
+    /**
+     * Should delete task when it exists.
+     * Verifies that the repository's existsById and deleteById methods are called.
+     * 
+     * @param id
+     * @throws NotFoundException if task is not found (not expected in this test).
+     */
     @Test
     void shouldDelete_whenExists() {
         // Arrange
@@ -359,6 +508,13 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
+    /**
+     * Should throw NotFoundException when deleting missing task.
+     * Verifies that the repository's existsById method is called.
+     * 
+     * @param id
+     * @throws NotFoundException when task is not found.
+     */
     @Test
     void shouldThrowNotFound_whenDeleteMissing() {
         // Arrange
@@ -372,8 +528,15 @@ class TaskServiceImplTest {
         verifyNoMoreInteractions(taskRepo, projectRepo);
     }
 
-    // --- simple DTO validation ---
+    // --- SIMPLE DTO VALIDATION ---
 
+    /**
+     * Should fail validation when create title is blank.
+     * Asserts that the validation violations contain an entry for the title
+     * field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenCreateTitleBlank() {
         // Arrange
@@ -387,6 +550,12 @@ class TaskServiceImplTest {
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("title"));
     }
 
+    /**
+     * Should fail validation when update status is null.
+     * Asserts that the validation violations contain an entry for the status field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenUpdateStatusNull() {
         // Arrange
@@ -400,6 +569,13 @@ class TaskServiceImplTest {
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("status"));
     }
 
+    /**
+     * Should fail validation when update priority is null.
+     * Asserts that the validation violations contain an entry for the priority
+     * field.
+     * 
+     * @throws BusinessRuleException if validation fails (expected in this test).
+     */
     @Test
     void shouldFailValidation_whenUpdatePriorityNull() {
         // Arrange
