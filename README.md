@@ -49,7 +49,7 @@ spring.datasource.password=admin
 
 ---
 
-### ▶️ Running the Application
+### ▶️ Running the Application (Local JVM)
 
 ```bash
 mvn clean package
@@ -57,6 +57,53 @@ mvn spring-boot:run
 ```
 
 The app starts at: http://localhost:8080
+
+---
+
+### 🐳 Running the Application with Docker (API + MySQL)
+
+You can run the entire stack (Spring Boot API + MySQL) using Docker Compose.
+
+#### 1. Build and start the containers
+From the project root:
+
+```bash
+docker compose up --build -d
+```
+
+This will:
+- Build the taskboard-api image using the Dockerfile
+- Start the mysql container (with taskboard and taskboard_test schemas)
+- Start the API container using the dev profile
+- Connect the API to the database using the internal hostname mysql
+
+The app starts at: http://localhost:8080
+
+#### 2. Stop the containers
+
+```bash
+docker compose down
+```
+
+#### 3. Remove containers + database data (development only)
+
+```bash
+docker compose down -v
+```
+⚠️ Warning: **-v** deletes MySQL data.
+On the next startup, Flyway will recreate all tables and seed data automatically.
+
+---
+
+### 🔗 Database URL inside Docker
+
+When the API runs inside Docker, it does not use localhost.
+It connects to the MySQL container via the service name mysql:
+
+```properties
+spring.datasource.url=jdbc:mysql://mysql:3306/taskboard?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+```
+This is configured in docker-compose.yml using environment variables.
 
 ---
 
