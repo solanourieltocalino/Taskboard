@@ -1,3 +1,5 @@
+version: "3.9"                    # Docker Compose file version
+
 services:                         # List of services (apps or containers)
   mysql:                          # Name of service
     image: mysql:8                # Docker Hub base image
@@ -8,11 +10,37 @@ services:                         # List of services (apps or containers)
       MYSQL_DATABASE: taskboard
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
+      TZ: America/Argentina/Buenos_Aires
     ports:
       - "3306:3306"               # Exposes container port 3306 to local port 3306
     volumes:
       - mysql_data:/var/lib/mysql # It stores the data on a persistent volume
       - ./docker/mysql/init:/docker-entrypoint-initdb.d   # Run initial SQL scripts on first container startup
+    healthcheck:                  # Helth check configuration for MySQL
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  app:                            # Name of service
+    build:                        # Build configuration
+      context: .                  # Build context is the current directory
+      dockerfile: Dockerfile      # Dockerfile to use for building the image
+    container_name: taskboard-app # Name of container
+    restart: always               # If it turns off, it restarts
+    depends_on:                   # Service dependencies
+      mysql:
+        condition: service_healthy
+    environment:                  # Environment variables for Taskboard API
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/taskboard?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"               # Exposes container port 8080 to local port 8080
 
 volumes:                          # Volume definition
   mysql_data:                     # Volume name used above
