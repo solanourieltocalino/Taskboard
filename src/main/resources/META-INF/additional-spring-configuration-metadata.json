@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "webhook.event.url",
+            "type": "java.lang.String",
+            "description": "URL for sending webhook event notifications."
+        }
+    ]
+}

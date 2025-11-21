@@ -145,6 +145,17 @@ public class DummyController {
     }
 
     /**
+     * Throw WebhookClientException
+     * 
+     * @param body
+     * @return
+     */
+    @PostMapping(value = "/webhook-fail", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String webhookFail(@RequestBody CreatePayload body) {
+        throw new WebhookClientException("Failed to send webhook event");
+    }
+
+    /**
      * Payload class for body validation
      */
     public static class CreatePayload {
