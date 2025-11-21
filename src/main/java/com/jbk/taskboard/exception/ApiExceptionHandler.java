@@ -13,6 +13,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -232,5 +233,19 @@ public class ApiExceptionHandler {
         log.error("Unhandled exception caught: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 ErrorResponse.of(500, "Internal Server Error", "An unexpected error occurred", null));
+    }
+
+    /**
+     * Handles webhook client exceptions.
+     * 
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(WebhookClientException.class)
+    public ResponseEntity<ErrorResponse> handleWebhookClientException(WebhookClientException ex, WebRequest request) {
+        log.error("Webhook client exception: {}", ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(
+                ErrorResponse.of(502, "Bad Gateway", ex.getMessage(), null));
     }
 }

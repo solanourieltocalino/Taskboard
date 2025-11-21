@@ -247,4 +247,21 @@ class ApiExceptionHandlerTest {
                 .andExpect(jsonPath("$.error").value("Internal Server Error"))
                 .andExpect(jsonPath("$.message").value("An unexpected error occurred"));
     }
+
+    /**
+     * 502: WebhookClientException
+     * 
+     * @throws Exception
+     */
+    @SuppressWarnings("null")
+    @Test
+    void shouldReturn502_whenWebhookClientException() throws Exception {
+        mvc.perform(post("/dummy/webhook-fail")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"hello\"}"))
+                .andExpect(status().isBadGateway())
+                .andExpect(jsonPath("$.status").value(502))
+                .andExpect(jsonPath("$.error").value("Bad Gateway"))
+                .andExpect(jsonPath("$.message").value("Failed to send webhook event"));
+    }
 }
