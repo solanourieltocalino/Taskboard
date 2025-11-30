@@ -4,6 +4,11 @@
             "name": "webhook.event.url",
             "type": "java.lang.String",
             "description": "URL for sending webhook event notifications."
+        },
+        {
+            "name": "cors.allowed-origin",
+            "type": "java.lang.String",
+            "description": "Allowed origin for CORS configuration."
         }
     ]
 }
